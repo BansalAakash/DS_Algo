@@ -22,16 +22,18 @@ class Node {
 */
 
 class Solution {
-    void helper(Node node1, Node node2){
-        if(node1 == null || node2 == null) return;
-        node1.next = node2;
-        helper(node1.left, node1.right);
-        helper(node2.left, node2.right);
-        helper(node1.right, node2.left);
-    }
     public Node connect(Node root) {
         if(root == null) return root;
-        helper(root.left, root.right);
+        Node leftest = root;
+        while(leftest != null){
+            Node cur = leftest;
+            while(cur != null){
+                if(cur.left != null) cur.left.next = cur.right;
+                if(cur.right != null && cur.next != null) cur.right.next = cur.next.left;
+                cur = cur.next;
+            }
+            leftest = leftest.left;
+        }
         return root;
     }
 }
