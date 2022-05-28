@@ -6,16 +6,19 @@ class Solution {
         return str.toString();
     }
     public int longestPalindromeSubseq(String s) {
-        int n = s.length();
+        int n = s.length(), prev = 0;
         String rev = reverse(s);
-        int[][] dp = new int[n + 1][n + 1];
+        int[] dp = new int[n + 1];
         for(int i = 1;i <= n;i++){
+            prev = 0;
             for(int j = 1;j <= n;j++){
-                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                int temp = dp[j];
+                dp[j] = Math.max(dp[j - 1], dp[j]);
                 if(s.charAt(i - 1) == rev.charAt(j - 1))
-                    dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - 1] + 1);
+                    dp[j] = Math.max(dp[j], prev + 1);
+                prev = temp;
             }
         }
-        return dp[n][n];
+        return dp[n];
     }
 }
