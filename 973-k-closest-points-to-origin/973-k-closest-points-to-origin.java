@@ -11,12 +11,14 @@ class Point{
 
 class Solution {
     public int[][] kClosest(int[][] points, int k) {
-        PriorityQueue<Point> q = new PriorityQueue<>((a, b)-> (a.d < b.d) ? -1 : 1);
-        for(int[] point : points)
+        PriorityQueue<Point> q = new PriorityQueue<>((a, b)-> (a.d < b.d) ? 1 : -1);
+        for(int[] point : points){
             q.add(new Point(point[0], point[1]));
+            if(q.size() > k) q.remove();
+        }
         int[][] result = new int[k][2];
         int i = 0;
-        while(i < k){
+        while(!q.isEmpty()){
             Point p = q.poll();
             result[i][0] = p.x;
             result[i][1] = p.y;
