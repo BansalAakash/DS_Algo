@@ -15,7 +15,7 @@ class Solution {
     }
     public int coinChange(int[] coins, int amount) {
         int[] dp = new int[amount + 1];
-        Arrays.sort(coins);
+        // Arrays.sort(coins);
         int result = helper(coins, amount, dp);
         return result;
     }
