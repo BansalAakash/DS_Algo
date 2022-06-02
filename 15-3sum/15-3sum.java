@@ -9,7 +9,7 @@ class Solution {
                 int start = i + 1, end = n - 1, sum = 0 - nums[i];
                 while(start < end){
                     if(nums[start] + nums[end] == sum){
-                        result.add(Arrays.asList(0 - sum, nums[start], nums[end]));
+                        result.add(Arrays.asList(nums[i], nums[start], nums[end]));
                         while(start < n - 1 && nums[start + 1] == nums[start]) start++;
                         start++;
                     } else if(nums[start] + nums[end] > sum){
