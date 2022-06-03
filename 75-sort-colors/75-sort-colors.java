@@ -1,17 +1,14 @@
 class Solution {
-    void swap(int[] A, int i, int j){
-        int temp = A[i];
-        A[i] = A[j];
-        A[j] = temp;
-    }
     public void sortColors(int[] A) {
         int n = A.length, i = 0, start = 0, end = n - 1;
         while(i <= end){
             if(A[i] == 0 && i != start){
-                swap(A, i, start);
+                A[i] = A[start];
+                A[start] = 0;
                 start++;
-            } else if(A[i] == 2 && i != end){
-                swap(A, i, end);
+            } else if(A[i] == 2){
+                A[i] = A[end];
+                A[end] = 2;
                 end--;
             } else i++;
         }
