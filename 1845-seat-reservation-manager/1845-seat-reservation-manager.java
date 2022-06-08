@@ -2,11 +2,11 @@ class SeatManager {
     PriorityQueue<Integer> q;       //contains unreserved seats
     public SeatManager(int n) {
         q = new PriorityQueue<>();
-        for(int i = 1;i <= n;i++)
-            q.add(i);
+        q.add(1);
     }
     
     public int reserve() {
+        if(q.size() == 1) q.add(q.peek() + 1);
         return q.poll();
     }
     
