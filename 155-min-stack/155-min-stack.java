@@ -8,13 +8,13 @@ class MinStack {
     
     public void push(int val) {
         stack.push(val);
-        if(min.isEmpty() || val < min.peek())
+        if(min.isEmpty() || val <= min.peek())
             min.push(val);
-        else min.push(min.peek());
     }
     
     public void pop() {
-        min.pop();
+        if(stack.peek().equals(min.peek()))
+            min.pop();
         stack.pop();
     }
     
