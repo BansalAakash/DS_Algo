@@ -1,24 +1,22 @@
 class Solution {
-    int helper(int start, int end, String str){
-        int len = 0, n = str.length();
-        while(start >= 0 && end < n && str.charAt(start) == str.charAt(end)){
-            start--;
-            end++;
+    int helper(int i, int j, String s){
+        while(i >= 0 && j < s.length() && s.charAt(i) == s.charAt(j)){
+            i--;
+            j++;
         }
-        return end - start - 1;
+        return j - i - 1;
     }
     public String longestPalindrome(String s) {
-        int len = 0, start = -1, end = -1, n = s.length();
-        for(int i = 0;i < n;i++){
-            int odd = helper(i, i, s);
-            int even = helper(i, i + 1, s);
-            int max = Math.max(odd, even);
-            if(max > len){
-                start = i - (max - 1) / 2;
-                end = i + max / 2;
-                len = end - start + 1;
+        if(s.length() < 2) return s;
+        int maxLen = 0, curLen = 0;
+        String result = "";
+        for(int i = 0;i < s.length();i++){
+            curLen = Math.max(helper(i, i, s), helper(i, i + 1, s));
+            if(curLen > maxLen){
+                result = s.substring(i - (curLen - 1) / 2, i + curLen / 2 + 1);
+                maxLen = curLen;
             }
         }
-        return s.substring(start, end + 1);
+        return result;
     }
 }
