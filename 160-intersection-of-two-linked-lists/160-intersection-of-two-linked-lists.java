@@ -10,16 +10,26 @@
  * }
  */
 public class Solution {
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        HashSet<ListNode> set = new HashSet<>();
-        while(headA != null){
-            set.add(headA);
-            headA = headA.next;
+    int length(ListNode l){
+        int len = 0;
+        while(l != null){
+            len++;
+            l = l.next;
         }
-        while(headB != null){
-            if(set.contains(headB)) return headB;
+        return len;
+    }
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int l1 = length(headA);
+        int l2 = length(headB);
+        if(l1 < l2) return getIntersectionNode(headB, headA);
+        int dif = l1 - l2;
+        while(dif-- != 0)
+            headA = headA.next;
+        while(headA != null && headB != null && headA != headB){
+            headA = headA.next;
             headB = headB.next;
         }
+        if(headA == headB) return headA;
         return null;
     }
 }
