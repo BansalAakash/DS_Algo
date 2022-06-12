@@ -10,26 +10,13 @@
  * }
  */
 public class Solution {
-    int length(ListNode l){
-        int len = 0;
-        while(l != null){
-            len++;
-            l = l.next;
-        }
-        return len;
-    }
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        int l1 = length(headA);
-        int l2 = length(headB);
-        if(l1 < l2) return getIntersectionNode(headB, headA);
-        int dif = l1 - l2;
-        while(dif-- != 0)
-            headA = headA.next;
-        while(headA != null && headB != null && headA != headB){
-            headA = headA.next;
-            headB = headB.next;
+        ListNode tempA = headA, tempB = headB;
+        while(tempA != tempB){
+            tempA = tempA == null ? headB : tempA.next;
+            tempB = tempB == null ? headA : tempB.next;
         }
-        if(headA == headB) return headA;
-        return null;
+        if(tempA == null) return null;
+        return tempA;
     }
 }
