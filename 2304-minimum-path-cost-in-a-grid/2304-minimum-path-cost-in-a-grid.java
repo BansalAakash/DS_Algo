@@ -1,7 +1,7 @@
 class Solution {
     public int minPathCost(int[][] grid, int[][] moveCost) {
         int minCost = Integer.MAX_VALUE, m = grid.length, n = grid[0].length;
-        int[] dp = Arrays.copyOf(grid[0], n);
+        int[] dp = grid[0];
         for(int i = 1;i < m;i++){
             int[] temp = new int[n];
             for(int j = 0;j < n;j++){
