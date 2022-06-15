@@ -19,7 +19,7 @@ class Solution {
     public boolean backspaceCompare(String s, String t) {
         s = transform(s);
         t = transform(t);
-        System.out.println(s + " " + t);
+        // System.out.println(s + " " + t);
         return s.equals(t);
     }
 }
