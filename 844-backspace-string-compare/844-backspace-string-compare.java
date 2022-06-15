@@ -1,25 +1,23 @@
 class Solution {
-    String transform(String s){
-        StringBuilder str = new StringBuilder(s);
-        int n = s.length();
-        for(int i = 0;i < n;i++){
-            if(str.charAt(i) == '#'){
-                int j = i - 1;
-                while(j >= 0 && (str.charAt(j) == '*' || str.charAt(j) == '#'))
-                    j--;
-                if(j >= 0)
-                    str.setCharAt(j, '*');
-            }
-        }
-        String result = str.toString();
-        result = result.replaceAll("\\*", "");
-        result = result.replaceAll("#", "");
-        return result; 
-    }
     public boolean backspaceCompare(String s, String t) {
-        s = transform(s);
-        t = transform(t);
-        // System.out.println(s + " " + t);
-        return s.equals(t);
+        Stack<Character> stack1 = new Stack<>();
+        Stack<Character> stack2 = new Stack<>();
+        for(char ch : s.toCharArray()){
+            if(ch == '#'){
+                if(!stack1.isEmpty())
+                    stack1.pop();
+            }
+            else stack1.push(ch);
+        }
+        for(char ch : t.toCharArray()){
+            if(ch == '#'){
+                if(!stack2.isEmpty())
+                    stack2.pop();
+            }
+            else stack2.push(ch);
+        }
+        while(!stack1.isEmpty() && !stack2.isEmpty())
+            if(stack1.pop() != stack2.pop()) return false;
+        return stack1.isEmpty() && stack2.isEmpty();
     }
 }
