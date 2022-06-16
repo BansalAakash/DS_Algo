@@ -16,36 +16,24 @@
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
-        if(root == null)
-            return result;
-        Stack<TreeNode> l2r = new Stack<>();
-        Stack<TreeNode> r2l = new Stack<>();
-        l2r.push(root);
-        int size = 1;
-        List<Integer> list = new ArrayList<>();
-        while(!l2r.isEmpty() || !r2l.isEmpty()){
-            List<Integer> list1 = new ArrayList<>();
-            while(!l2r.isEmpty()){
-                TreeNode temp = l2r.pop();
-                list1.add(temp.val);
-                if(temp.left != null)
-                    r2l.push(temp.left);
-                if(temp.right != null)
-                    r2l.push(temp.right);
+        if(root == null) return result;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        boolean reverse = false;
+        while(!queue.isEmpty()){
+            LinkedList<Integer> list = new LinkedList<>();          //allows to addFirst in O(1) time
+            int size = queue.size();
+            while(size-- > 0){
+                TreeNode cur = queue.poll();
+                if(reverse)
+                    list.addFirst(cur.val);
+                else
+                    list.add(cur.val);
+                if(cur.left != null) queue.add(cur.left);
+                if(cur.right != null) queue.add(cur.right);
             }
-            result.add(list1);
-            if(!r2l.isEmpty()){
-                List<Integer> list2 = new ArrayList<>();
-                while(!r2l.isEmpty()){
-                    TreeNode temp = r2l.pop();
-                    list2.add(temp.val);
-                    if(temp.right != null)
-                        l2r.push(temp.right);
-                    if(temp.left != null)
-                        l2r.push(temp.left);
-                }
-                result.add(list2);
-            }
+            result.add(list);
+            reverse = !reverse;
         }
         return result;
     }
