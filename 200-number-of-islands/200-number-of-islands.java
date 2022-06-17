@@ -1,22 +1,29 @@
 class Solution {
-    int mark(char[][] grid, boolean[][] visited, int i, int j, int m, int n){
+    int[] dir = {0, 1, 0, -1, 0};       //right, down, left, up
+    int m, n;
+    boolean visited[][];
+    char[][] grid;
+    int mark(int i, int j){
         if(i < 0 || j < 0 || i == m || j == n || visited[i][j] || grid[i][j] == '0')
             return 0;
         visited[i][j] = true;
-        mark(grid, visited, i + 1, j, m, n);
-        mark(grid, visited, i - 1, j, m, n);
-        mark(grid, visited, i, j + 1, m, n);
-        mark(grid, visited, i, j - 1, m, n);
+        for(int k = 0;k < 4;k++)
+            mark(i + dir[k], j + dir[k + 1]);
         return 1;
     }
     public int numIslands(char[][] grid) {
-        int m = grid.length, n = grid[0].length, count = 0;
-        boolean visited[][] = new boolean[m][n];
+        m = grid.length;
+        n = grid[0].length;
+        visited = new boolean[m][n];
+        this.grid = grid;
         for(boolean[] row : visited)
             Arrays.fill(row, false);
+        
+        int count = 0;
         for(int i = 0;i < m;i++)
             for(int j = 0;j < n;j++)
-                count += mark(grid, visited, i, j, m, n);
+                count += mark(i, j);
+        
         return count;
     }
 }
