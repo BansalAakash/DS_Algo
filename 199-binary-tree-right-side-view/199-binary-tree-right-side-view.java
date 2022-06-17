@@ -14,23 +14,17 @@
  * }
  */
 class Solution {
+    void solve(List<Integer> list, TreeNode root, int level){
+        if(root == null)
+            return;
+        if(list.size() == level)
+            list.add(root.val);
+        solve(list, root.right, level + 1);
+        solve(list, root.left, level + 1);
+    }
     public List<Integer> rightSideView(TreeNode root) {
         List<Integer> list = new LinkedList<>();
-        if(root == null)
-            return list;
-        Deque<TreeNode> dq = new ArrayDeque<>();
-        dq.add(root);
-        while(!dq.isEmpty()){
-            int size = dq.size();
-            list.add(dq.getLast().val);
-            while(size-- > 0){
-                TreeNode temp = dq.poll();
-                if(temp.left != null)
-                    dq.add(temp.left);
-                if(temp.right != null)
-                    dq.add(temp.right);
-            }
-        }
+        solve(list, root, 0);
         return list;
     }
 }
