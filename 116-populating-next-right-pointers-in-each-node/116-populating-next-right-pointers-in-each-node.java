@@ -22,17 +22,22 @@ class Node {
 */
 
 class Solution {
-    void solve(Node node1, Node node2){
-        if(node1 == null)
-            return;
-        node1.next = node2;
-        solve(node1.left, node1.right);
-        solve(node1.right, node2.left);
-        solve(node2.left, node2.right);
-    }
     public Node connect(Node root) {
-        if(root != null)
-            solve(root.left, root.right);
+        if(root == null)
+            return root;
+        Node leftest = root;
+        while(leftest != null){
+            Node cur = leftest;
+            while(cur != null){
+                if(cur.left != null) {
+                    cur.left.next = cur.right;
+                    if(cur.next != null)
+                        cur.right.next = cur.next.left;
+                }
+                cur = cur.next;
+            }
+            leftest = leftest.left;
+        }
         return root;
     }
 }
