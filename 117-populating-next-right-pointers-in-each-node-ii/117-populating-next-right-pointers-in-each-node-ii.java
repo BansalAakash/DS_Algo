@@ -1,6 +1,6 @@
 class Solution {
     public Node connect(Node root) {
-        Node dummy = new Node(-1), p = dummy, head = root;
+        Node head = root;
         while(head != null){
             Node cur = head, pre = null, nextHead = null;
             while(cur != null){
