@@ -7,6 +7,7 @@ class Solution {
         Queue<int[]> q = new LinkedList<>();
         q.add(new int[] {0, 0});
         int cost = 1;
+        grid[0][0] = 1;
         //will update grid to 1 instead of using boolean visited
         while(!q.isEmpty()){
             int size = q.size();
