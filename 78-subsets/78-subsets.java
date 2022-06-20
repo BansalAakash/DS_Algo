@@ -1,18 +1,17 @@
 class Solution {
-    public List<List<Integer>> subsets(int[] nums) {
-        int n = nums.length, m = (int)Math.pow(2, n);
-        List<List<Integer>> result = new ArrayList<>();
-        
-        for(int i = 0;i < m;i++){
-            List<Integer> list = new ArrayList<>();
-            int count = 0;
-            while(count < n){
-                if((i >> count & 1) == 1)
-                    list.add(nums[count]);
-                count++;
-            }
-            result.add(list);
+    void solve(List<List<Integer>> result, List<Integer> list, int[] nums, int i, int n){
+        if(i == n){
+            result.add(new ArrayList<>(list));
+            return;
         }
+        solve(result, list, nums, i + 1, n);
+        list.add(nums[i]);
+        solve(result, list, nums, i + 1, n);
+        list.remove(list.size() - 1);
+    }
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        solve(result, new ArrayList<>(), nums, 0, nums.length);
         return result;
     }
 }
