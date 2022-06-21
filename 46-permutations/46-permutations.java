@@ -1,25 +1,22 @@
 class Solution {
-    void swap(List<Integer> list, int i, int j){
-        int temp = list.get(i);
-        list.set(i, list.get(j));
-        list.set(j, temp);
-    }
-    void helper(int index, List<Integer> list, List<List<Integer>> result) {
-        if(index == list.size() - 1){
-            result.add(List.copyOf(list));
+    void solve(List<List<Integer>> result, List<Integer> list, HashSet<Integer> taken, int[] nums){
+        if(taken.size() == nums.length){
+            result.add(new ArrayList<>(list));
             return;
         }
-        for(int i = index;i < list.size();i++){
-            swap(list, index, i);
-            helper(index + 1, list, result);    
-            swap(list, index, i);
+        for(int i = 0;i < nums.length;i++){
+            if(!taken.contains(i)){
+                list.add(nums[i]);
+                taken.add(i);
+                solve(result, list, taken, nums);
+                list.remove(list.size() - 1);
+                taken.remove(i);
+            }
         }
     }
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
-        List<Integer> list = new ArrayList<>();
-        for(int i : nums) list.add(i);
-        helper(0, list, result);
+        solve(result, new ArrayList<>(), new HashSet<>(), nums);
         return result;
     }
 }
