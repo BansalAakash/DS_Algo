@@ -14,14 +14,10 @@ class Solution {
     }
     public boolean exist(char[][] board, String word) {
         int m = board.length, n = board[0].length;
-        boolean result = false;
-        for(int i = 0;i < m;i++){
-            for(int j = 0;j < n;j++){
-                result = result || solve(board, i, j, m, n, word, 0, new boolean[m][n]);
-                if(result == true)
-                    return result;
-            }
-        }
-        return result;
+        for(int i = 0;i < m;i++)
+            for(int j = 0;j < n;j++)
+                if(solve(board, i, j, m, n, word, 0, new boolean[m][n]))
+                    return true;
+        return false;
     }
 }
