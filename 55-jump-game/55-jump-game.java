@@ -1,15 +1,11 @@
 class Solution {
     public boolean canJump(int[] nums) {
-        int n = nums.length;
-        boolean[] dp = new boolean[n];
-        dp[0] = true;
-        
+        int n = nums.length, max = 0;
         for(int i = 0;i < n;i++){
-            if(!dp[i])
+            if(max < i)
                 return false;
-            for(int j = i + 1;j <= Math.min(i + nums[i], n - 1);j++)
-                dp[j] = true;
+            max = Math.max(max, i + nums[i]);
         }
-        return true;
+        return max >= n - 1;
     }
 }
