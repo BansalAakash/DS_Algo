@@ -1,5 +1,5 @@
 class Solution {
-    int helper(int i, int j, String s){
+    int len(String s, int i, int j){
         while(i >= 0 && j < s.length() && s.charAt(i) == s.charAt(j)){
             i--;
             j++;
@@ -7,16 +7,21 @@ class Solution {
         return j - i - 1;
     }
     public String longestPalindrome(String s) {
-        if(s.length() < 2) return s;
-        int maxLen = 0, curLen = 0;
-        String result = "";
+        int left = 0, right = 0, max = 0;
         for(int i = 0;i < s.length();i++){
-            curLen = Math.max(helper(i, i, s), helper(i, i + 1, s));
-            if(curLen > maxLen){
-                result = s.substring(i - (curLen - 1) / 2, i + curLen / 2 + 1);
-                maxLen = curLen;
+            int tempOdd = len(s, i, i);
+            if(tempOdd > max){
+                max = tempOdd;
+                left = i - max / 2;
+                right = i + max / 2;
+            }
+            int tempEven = len(s, i, i + 1);
+            if(tempEven > max){
+                max = tempEven;
+                left = i - max / 2 + 1;
+                right = i + max / 2;
             }
         }
-        return result;
+        return s.substring(left, right + 1);
     }
 }
