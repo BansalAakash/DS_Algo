@@ -1,18 +1,16 @@
 class Solution {
-    public List<List<Integer>> generate(int numRows) {
-        if(numRows == 0) return null;
+    public List<List<Integer>> generate(int n) {
         List<List<Integer>> result = new ArrayList<>();
-        List<Integer> prev = new ArrayList<>();
-        prev.add(1);
-        result.add(prev);
-        for(int i = 2;i <= numRows;i++){
-            List<Integer> cur = new ArrayList<>();
-            cur.add(1);
-            for(int j = 1;j < i - 1;j++)
-                cur.add(prev.get(j - 1) + prev.get(j));
-            cur.add(1);
-            result.add(cur);
-            prev = cur;
+        ArrayList<Integer> temp = new ArrayList<>();
+        temp.add(1);
+        result.add(temp);
+        for(int i = 1;i < n;i++){
+            ArrayList<Integer> list = new ArrayList<>();
+            list.add(1);
+            for(int j = 0;j < i - 1;j++)
+                list.add(result.get(i - 1).get(j) + result.get(i - 1).get(j + 1));
+            list.add(1);
+            result.add(list);
         }
         return result;
     }
