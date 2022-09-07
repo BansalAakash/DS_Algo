@@ -1,14 +1,11 @@
 class Solution {
     public int majorityElement(int[] nums) {
-        int curElem = nums[0], count = 1, n = nums.length;
-        for(int i = 1;i < n;i++){
-            if(nums[i] == curElem) count++;
-            else count--;
-            if(count == 0){
-                curElem = nums[i];
-                count = 1;
-            }
+        Arrays.sort(nums);
+        int n = nums.length;
+        for(int i = 0;i <= (n - 1) / 2;i++){
+            if(nums[i + n / 2] == nums[i])
+                return nums[i];
         }
-        return curElem;
+        return -1;
     }
 }
