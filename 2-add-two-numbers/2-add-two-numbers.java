@@ -10,27 +10,34 @@
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        if(l1 == null && l2 == null) return null;
-        int carry = 0, sum = 0, val1 = 0, val2 = 0;
-        ListNode l3 = null, temp = null;
-        while(l1 != null || l2 != null){
-            val1 = l1 == null ? 0 : l1.val;
-            val2 = l2 == null ? 0 : l2.val;
-            sum = val1 + val2 + carry;
-            carry = sum / 10;
-            sum = sum % 10;
-            if(l3 == null){
-                l3 = new ListNode(sum);
-                temp = l3;
-            } else{
-                temp.next = new ListNode(sum);
-                temp = temp.next;
+        int carry = 0;
+        ListNode l3 = null, cur = null;
+        while(l1 != null && l2 != null){
+            int newVal = l1.val + l2.val + carry;
+            ListNode temp = new ListNode(newVal % 10);
+            carry = newVal / 10;
+            if(cur == null){
+                l3 = temp;
+                cur = temp;
+            } else {
+                cur.next = temp;
+                cur = cur.next;
             }
-            l1 = l1 == null ? l1 : l1.next;
-            l2 = l2 == null ? l2 : l2.next;
+            l1 = l1.next;
+            l2 = l2.next;
         }
-        if(carry > 0)
-            temp.next = new ListNode(carry);
+        if(l2 != null)      //Only one of them will be null
+            l1 = l2;
+        while(l1 != null){
+            int newVal = l1.val + carry;
+            ListNode temp = new ListNode(newVal % 10);
+            carry = newVal / 10;
+            cur.next = temp;
+            cur = cur.next;
+            l1 = l1.next;
+        }
+        if(carry == 1)
+            cur.next = new ListNode(1);
         return l3;
     }
 }
