@@ -28,13 +28,7 @@ class Solution {
                 cur = cur.next;
             }
         }
-        if(l2 != null)
-            l1 = l2;
-        while(l1 != null){
-            cur.next = l1;
-            cur = cur.next;
-            l1 = l1.next;
-        }
+        cur.next = l1 == null ? l2 : l1;
         return l3;
     }
     public ListNode sortList(ListNode l1) {
