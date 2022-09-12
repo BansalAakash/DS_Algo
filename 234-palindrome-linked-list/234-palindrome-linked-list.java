@@ -10,27 +10,22 @@
  */
 class Solution {
     public boolean isPalindrome(ListNode head) {
-        ListNode prev = null, cur = head, fast = head, next = null;
+        if(head == null || head.next == null)
+            return true;
+        Stack<Integer> stack = new Stack<>();
+        ListNode slow = head, fast = head;
         while(fast != null && fast.next != null){
+            stack.add(slow.val);
+            slow = slow.next;
             fast = fast.next.next;
-            next = cur.next;
-            cur.next = prev;
-            prev = cur;
-            cur = next;
         }
-        boolean isPal = true;
-        next = cur;
-        if(fast != null) //odd
-            cur = cur.next;
-        while(prev != null){
-            if(cur.val != prev.val)
-                isPal = false;
-            ListNode temp = prev.next;
-            prev.next = next;
-            next = prev;
-            prev = temp;
-            cur = cur.next;
+        if(fast != null)
+            slow = slow.next;
+        while(!stack.isEmpty()){
+            if(stack.pop() != slow.val)
+                return false;
+            slow = slow.next;
         }
-        return isPal;
+        return true;
     }
 }
