@@ -13,19 +13,10 @@ public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         boolean flagA = false, flagB = false;
         ListNode nodeA = headA, nodeB = headB;
-        while(true){
-            if(nodeA == nodeB)
-                return nodeA;
-            if(nodeA.next == null){
-                if(flagA == true) return null;
-                flagA = true;
-                nodeA = headB;
-            } else nodeA = nodeA.next;
-            if(nodeB.next == null){
-                if(flagB == true) return null;
-                flagB = true;
-                nodeB = headA;
-            } else nodeB = nodeB.next;
+        while(nodeA != nodeB){
+            nodeA = nodeA == null ? headB : nodeA.next;
+            nodeB = nodeB == null ? headA : nodeB.next;
         }
+        return nodeA;
     }
 }
