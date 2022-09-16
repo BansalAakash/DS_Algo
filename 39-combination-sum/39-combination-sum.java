@@ -1,20 +1,19 @@
 class Solution {
-    void solve(int[] nums, List<List<Integer>> result, List<Integer> list, int sum, int target, int start){
-        if(sum > target)
-            return;
-        if(sum == target){
-            result.add(new ArrayList<>(list));
-            return;
-        }
-        for(int i = start;i < nums.length;i++){
-            list.add(nums[i]);
-            solve(nums, result, list, sum + nums[i], target, i);
-            list.remove(list.size() - 1);
+    void helper(List<List<Integer>> result, List<Integer> list, int val, int[] nums, int prev){
+        if(val == 0) result.add(new ArrayList<>(list));
+        if(val <= 0) return;
+        
+        for(int i : nums){
+            if(i >= prev){
+                list.add(i);
+                helper(result, list, val - i, nums, i);
+                list.remove(list.size() - 1);
+            }
         }
     }
     public List<List<Integer>> combinationSum(int[] nums, int target) {
         List<List<Integer>> result = new ArrayList<>();
-        solve(nums, result, new ArrayList<>(), 0, target, 0);
+        helper(result, new ArrayList<>(), target, nums, 0);
         return result;
     }
 }
