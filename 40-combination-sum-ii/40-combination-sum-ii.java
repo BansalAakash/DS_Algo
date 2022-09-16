@@ -1,23 +1,21 @@
 class Solution {
-    void solve(int[] nums, List<List<Integer>> result, List<Integer> list, int sum, int target, int start){
-        if(sum > target)
-            return;
-        if(sum == target){
-            result.add(new ArrayList<>(list));
-            return;
-        }
+    void helper(List<List<Integer>> result, List<Integer> list, int val, int[] nums, boolean[] taken, int start){
+        if(val == 0) result.add(new ArrayList<>(list));
+        if(val <= 0) return;
         for(int i = start;i < nums.length;i++){
-            if(i > start && nums[i] == nums[i - 1])
-                continue;
-            list.add(nums[i]);
-            solve(nums, result, list, sum + nums[i], target, i + 1);
-            list.remove(list.size() - 1);
+            if(!taken[i] && (i == start || nums[i] != nums[i - 1])){
+                taken[i] = true;
+                list.add(nums[i]);
+                helper(result, list, val - nums[i], nums, taken, i + 1);
+                taken[i] = false;
+                list.remove(list.size() - 1);
+            }
         }
     }
     public List<List<Integer>> combinationSum2(int[] nums, int target) {
-        List<List<Integer>> result = new ArrayList<>();
         Arrays.sort(nums);
-        solve(nums, result, new ArrayList<>(), 0, target, 0);
+        List<List<Integer>> result = new ArrayList<>();
+        helper(result, new ArrayList<>(), target, nums, new boolean[nums.length], 0);
         return result;
     }
 }
