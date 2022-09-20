@@ -20,9 +20,9 @@ class Solution {
         return getPermutation(n - 1, k - count * fact[n - 1], set, string, fact);
     }
     public String getPermutation(int n, int k) {
-        int[] fact = new int[n + 1];
+        int[] fact = new int[n];
         fact[0] = 1;
-        for(int i = 1;i <= n;i++) fact[i] = i * fact[i - 1];
+        for(int i = 1;i < n;i++) fact[i] = i * fact[i - 1];
         return getPermutation(n, k, new HashSet<>(), new StringBuilder(), fact);
     }
 }
