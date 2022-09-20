@@ -1,22 +1,22 @@
 class Solution {
-    void permute(List<List<Integer>> result, ArrayList<Integer> cur, HashSet<Integer> set, int[] nums){
-		if(set.size() == nums.length){
-			result.add(new ArrayList<>(cur));
-			return;
-		}
-		for(int i = 0;i < nums.length;i++){
-			if(!set.contains(i)){
-				cur.add(nums[i]);
-				set.add(i);
-				permute(result, cur, set, nums);
-				cur.remove(cur.size() - 1);
-				set.remove(i);
-			}
-		}
-	}
+    void helper(List<List<Integer>> result, List<Integer> cur, int index, int[] nums, boolean[] taken){
+        if(index == nums.length){
+            result.add(new ArrayList<>(cur));
+            return;
+        }
+        for(int i = 0;i < nums.length;i++){
+            if(!taken[i]){
+                taken[i] = true;
+                cur.add(nums[i]);
+                helper(result, cur, index + 1, nums, taken);
+                cur.remove(cur.size() - 1);
+                taken[i] = false;
+            }
+        }
+    }
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
-		permute(result, new ArrayList<>(), new HashSet<>(), nums);
-		return result;
+        helper(result, new ArrayList<>(), 0, nums, new boolean[nums.length]);
+        return result;
     }
 }
