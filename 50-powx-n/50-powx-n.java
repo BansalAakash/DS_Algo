@@ -1,10 +1,11 @@
 class Solution {
     public double myPow(double x, int n) {
         if(n == 0)
-            return 1;
+             return 1;
+        if(n == 1)
+            return x;
         if(n < 0)
-            return 1 / x * myPow(1 / x, -1 * (n + 1));
-        double result = myPow(x * x, n / 2);
-        return n % 2 == 0 ? result : x * result;
+            return (1 / x) * myPow(1 / x, -(n + 1));
+        return n % 2 == 0 ? myPow(x * x, n / 2) : x * myPow(x * x, n / 2);
     }
 }
