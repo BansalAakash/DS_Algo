@@ -1,16 +1,14 @@
 class Solution {
     public int maximumSum(int[] arr) {
-        int n = arr.length, max = arr[0];
-        int left[] = new int[n], right[] = new int[n];
-        left[0] = arr[0];
-        right[n - 1] = arr[n - 1];
-        for(int i = 1;i < n;i++){
-            left[i] = arr[i] + Math.max(0, left[i - 1]);
-            right[n - i - 1] = arr[n - i - 1] + Math.max(0, right[n - i]);
-            max = Math.max(max, left[i]);                                   // No deletions
+        if(arr.length == 1) return arr[0];
+        int d = 0, nd = arr[0], temp_d = 0, temp_nd = 0, max = Integer.MIN_VALUE;
+        for(int i = 1;i < arr.length;i++){
+            temp_nd = arr[i] + Math.max(0, nd);
+            temp_d = Math.max(d + arr[i], nd);
+            d = temp_d;
+            nd = temp_nd;
+            max = Math.max(max, Math.max(d, nd));
         }
-        for(int i = 1;i < n - 1;i++)
-            max = Math.max(max, left[i - 1] + right[i + 1]);
         return max;
     }
 }
