@@ -1,14 +1,21 @@
 class Solution {
-    public int findMin(int[] A) {
-        int n = A.length, low = 0, high = n - 1, min = 5001;
+    public int findMin(int[] nums) {
+        int n = nums.length;
+        if(n == 1)
+            return nums[0];
+        if(nums[0] < nums[n - 1])
+            return nums[0];
+        if(nums[n - 1] < nums[n - 2])
+            return nums[n - 1];
+        int low = 0, high = n - 1, mid = -1;
         while(low <= high){
-            int mid = low + (high - low) / 2;
-            if(A[mid] < (mid == 0 ? Integer.MAX_VALUE : A[mid - 1]) && A[mid] < (mid == n - 1 ? Integer.MAX_VALUE : A[mid + 1]))
-                return A[mid];
-            if(A[mid] < A[n - 1])
+            mid = low + (high - low) / 2;
+            if(nums[mid] < nums[mid + 1] && nums[mid] < nums[mid - 1])
+                return nums[mid];
+            if(nums[mid] < nums[0])
                 high = mid - 1;
             else low = mid + 1;
         }
-        return Integer.MAX_VALUE;
+        return nums[mid];
     }
 }
