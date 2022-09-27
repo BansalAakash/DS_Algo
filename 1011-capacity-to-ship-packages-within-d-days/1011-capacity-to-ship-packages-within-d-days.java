@@ -3,12 +3,11 @@ class Solution {
         int tempDays = 1, i = 0, cur = 0, n = weights.length;
         while(i < weights.length){
             if(cur + weights[i] > m){
+                cur = weights[i];
                 tempDays++;
                 if(tempDays > days) return false;
-                cur = weights[i];
-            } else {
+            } else 
                 cur += weights[i];
-            }
             i++;
         }
         return true;
@@ -22,14 +21,8 @@ class Solution {
         int low = max, high = sum, mid = 0;
         while(low < high){
             mid = low + (high - low) / 2;
-            if(feasible(weights, days, mid)){
-                high = mid;
-                // System.out.println("Feasible with capacity " + mid);
-            }
-            else {
-                low = mid + 1;
-                // System.out.println("Not feasible with capacity " + mid);
-            }
+            if(feasible(weights, days, mid)) high = mid;
+            else low = mid + 1;
         }
         return low;
     }
