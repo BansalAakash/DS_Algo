@@ -1,15 +1,17 @@
 class Solution {
     boolean feasible(int[] weights, int days, int m){
-        int temp = 1, i = 0, cur = 0, n = weights.length;
-        while(temp++ <= days){
-            cur = 0;
-            while(i < weights.length && cur + weights[i] <= m){
+        int tempDays = 1, i = 0, cur = 0, n = weights.length;
+        while(i < weights.length){
+            if(cur + weights[i] > m){
+                tempDays++;
+                if(tempDays > days) return false;
+                cur = weights[i];
+            } else {
                 cur += weights[i];
-                i++;
             }
-            if(i == weights.length) return true;
+            i++;
         }
-        return temp <= days;
+        return true;
     }
     public int shipWithinDays(int[] weights, int days) {
         int max = Integer.MIN_VALUE, sum = 0;
