@@ -1,31 +1,37 @@
-class Node implements Comparable<Node>{
-    int val, freq;
-    public Node(int a, int b){
-        val = a;
-        freq = b;
-    }
-    @Override
-    public int compareTo(Node n){
-        return this.freq - n.freq;
-    }
-}
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
-        HashMap<Integer, Integer> freq = new HashMap<>();
-        for(int i : nums)                                                            //O(n) time
-            if(freq.containsKey(i))
-                freq.put(i, freq.get(i) + 1);
-            else freq.put(i, 1);
-        PriorityQueue<Node> pq = new PriorityQueue<>();                             //O(k) space
-        for(Map.Entry<Integer, Integer> entry : freq.entrySet()){
-            pq.add(new Node(entry.getKey(), entry.getValue()));                     //O(k logk) time
-            if(pq.size() > k)
-                pq.poll();
+        // System.out.println("*****");
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int max = 0;
+        for(int i : nums){
+            map.put(i, map.getOrDefault(i, 0) + 1);
+            max = Math.max(max, map.get(i));
         }
+        ArrayList<Integer>[] buckets = new ArrayList[max + 1];
+        for(int key : map.keySet()){
+            int val = map.get(key);
+            if(buckets[val] == null)
+                buckets[val] = new ArrayList<>();
+            buckets[val].add(key);
+        }
+        int count = 0;
+        // for(ArrayList<Integer> arr : buckets){
+        //     System.out.print(count++ + " : ");
+        //     if(arr != null){
+        //         for(int i : arr)
+        //             System.out.print(i + ", ");
+        //     }
+        //     System.out.println();
+        // }
+        
         int[] result = new int[k];
-        int i = 0;
-        while(!pq.isEmpty())                                                            //O(k) time
-            result[i++] = pq.poll().val;
+        int i = 0, j = max;
+        while(i < k){
+            if(buckets[j] != null)
+                for(int x : buckets[j])
+                    result[i++] = x;
+            j--;
+        }
         return result;
     }
 }
