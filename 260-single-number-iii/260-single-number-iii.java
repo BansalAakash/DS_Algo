@@ -14,6 +14,6 @@ class Solution {
                 part1 ^= j;
             else part2 ^= j;
         }
-        return new int[] {part1 ^ result, part2 ^ result};
+        return new int[] {part1, part2};
     }
 }
