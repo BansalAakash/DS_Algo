@@ -8,68 +8,84 @@ class Node{
         this.use = 1;
     }
 }
-class LFUCache {
-    Node head, tail;                            //head and tail are pseudo
-    int cap, size;
-    HashMap<Integer, Node> map;
-    public LFUCache(int capacity) {
-        cap = capacity;
+class DLL{
+    Node head, tail;                        //pseudo
+    int size;
+    public DLL(){
         head = new Node();
         tail = new Node();
         head.next = tail;
         tail.prev = head;
-        map = new HashMap<>();
     }
-    void update(Node node){
-        remove(node);
-        add(node);
+    void insert(Node node){
+        node.next = head.next;
+        head.next.prev = node;
+        head.next = node;
+        node.prev = head;
+        size++;
+    }
+    void removeNode(Node node){
+        Node temp = node.prev;
+        temp.next = node.next;
+        node.next.prev = temp;
+        size--;
+    }
+}
+class LFUCache {
+    int cap, minFreq, size;
+    HashMap<Integer, Node> nodeMap;
+    HashMap<Integer, DLL> freqMap;
+    public LFUCache(int capacity) {
+        cap = capacity;
+        nodeMap = new HashMap<>();
+        freqMap = new HashMap<>();
+        minFreq = 1;
     }
     void remove(Node node){
-        // System.out.println("Removing " + node.key);
-        node.prev.next = node.next;
-        node.next.prev = node.prev;
-        map.remove(node.key);
+        freqMap.get(node.use).removeNode(node);
+        nodeMap.remove(node.key);
         size--;
     }
     void add(Node node){
-        // System.out.println("Adding " + node.key);
-        Node temp = head.next;
-        while(temp != tail && temp.use > node.use)
-            temp = temp.next;
-        temp.prev.next = node;
-        node.prev = temp.prev;
-        node.next = temp;
-        temp.prev = node;
-        map.put(node.key, node);
+        DLL temp = null;
+        if(!freqMap.containsKey(minFreq) || freqMap.get(minFreq).size == 0)
+            minFreq = node.use;
+        if(freqMap.containsKey(node.use))
+            temp = freqMap.get(node.use);
+        else {
+            temp = new DLL();
+            freqMap.put(node.use, temp);
+        }
+        temp.insert(node);
+        nodeMap.put(node.key, node);
         size++;
     }
+    void update(Node node){
+        remove(node);
+        node.use++;
+        add(node);
+    }
     public int get(int key) {
-        // System.out.print("Searching " + key);
-        if(!map.containsKey(key)){
-            // System.out.println(". Not Found");
+        if(!nodeMap.containsKey(key))
             return -1;
-        }
-        // System.out.println(". Found, updating use counter");
-        map.get(key).use += 1;
-        update(map.get(key));
-        return map.get(key).value;
+        update(nodeMap.get(key));
+        return nodeMap.get(key).value;
     }
     
     public void put(int key, int value) {
         if(cap == 0)
             return;
-        if(map.containsKey(key)){
-            map.get(key).use += 1;
-            map.get(key).value = value;
-            update(map.get(key));
-            return;
+        if(nodeMap.containsKey(key)){
+            Node node = nodeMap.get(key);
+            node.value = value;
+            update(node);
+        } else{
+            if(size == cap)
+                remove(freqMap.get(minFreq).tail.prev);
+            Node node = new Node(key, value);
+            add(node);
+            minFreq = 1;
         }
-        if(size == cap){
-            // System.out.print("Evicting " + tail.prev.key + ". ");
-            remove(tail.prev);
-        }
-        Node node = new Node(key, value);
-        add(node);
     }
 }
 
