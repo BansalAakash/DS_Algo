@@ -1,48 +1,48 @@
-import java.util.*;
-
 class Solution {
     public int nextGreaterElement(int n) {
-        // System.out.println("n is " + n);
         List<Integer> list = new ArrayList<>();
-        int temp = n;
-        while(temp != 0){
-            list.add(0, temp % 10);
-            temp = temp / 10;
+        int left = 0;
+        while(n > 0){
+            list.add(0, n % 10);
+            n = n / 10;
+            left++;
         }
-        // System.out.println("initally, list is " + list.toString());
-        int i = list.size() - 2;
-        for(;i >= 0;i--){
-            if(list.get(i) < list.get(i + 1))
-                break;
-        }
-        if(i == -1) return -1;
-        int j = list.size() - 1, dif = Integer.MAX_VALUE, jIndex = -1, iIndex = i;
-        while(j > i){
-            if(list.get(j) > list.get(i) && list.get(j) - list.get(i) < dif){
-                dif = list.get(j) - list.get(i);
-                jIndex = j;
+        left -= 2;
+        while(left >= 0 && list.get(left) >= list.get(left + 1))
+            left--;
+        // System.out.println("Left: " + left);
+        if(left < 0) return -1;
+        int min = Integer.MAX_VALUE, right = -1;
+        for(int i = left + 1;i < list.size();i++){
+            if(list.get(i) > list.get(left) && list.get(i) - list.get(left) <= min){
+                min = list.get(i) - list.get(left);
+                right = i;
             }
+        }
+        // System.out.println("Right: " + right);
+        int temp = list.get(left);
+        list.set(left, list.get(right));
+        list.set(right, temp);
+        int i = left + 1, j = list.size() - 1;
+        // display(list);
+        while(i < j){
+            temp = list.get(i);
+            list.set(i, list.get(j));
+            list.set(j, temp);
+            i++;
             j--;
         }
-
-        //swap i and j index
-        swap(list, iIndex, jIndex);
-        // System.out.println("after swapping, list is " + list.toString());
-        //reverse everything to the right of iIndex
-        int start = iIndex + 1, end = list.size() - 1;
-        while(start < end){
-            swap(list, start, end);
-            start++;end--;
+        long result = 0, multiplier = 1;
+        for(i = list.size() - 1;i >= 0;i--){
+            result += list.get(i) * multiplier;
+            multiplier *= 10;
         }
-        // System.out.println("after reversing, list is " + list.toString());
-        long result = 0;
-        for(int k = 0;k < list.size();k++)
-            result = result * 10 + list.get(k);
+        // display(list);
         return result <= Integer.MAX_VALUE ? (int)result : -1;
     }
-    void swap(List<Integer> list, int i, int j){
-        int temp = list.get(i);
-        list.set(i, list.get(j));
-        list.set(j, temp);
+    void display(List<Integer> list){
+        for(int i : list)
+            System.out.print(i + ", ");
+        System.out.println();
     }
 }
