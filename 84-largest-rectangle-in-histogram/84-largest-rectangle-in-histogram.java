@@ -3,27 +3,25 @@ class Solution {
         int n = nums.length;
         int[] left = new int[n];
         int[] right = new int[n];
-        Stack<Integer> lstack = new Stack<>();
+        Stack<Integer> stack = new Stack<>();
         for(int i = 0;i < n;i++){
-            while(!lstack.isEmpty() && nums[lstack.peek()] >= nums[i])
-                lstack.pop();
-            if(lstack.isEmpty())
+            while(!stack.isEmpty() && nums[stack.peek()] >= nums[i])
+                stack.pop();
+            if(stack.isEmpty())
                 left[i] = -1;
-            else left[i] = lstack.peek();
-            lstack.push(i);
+            else left[i] = stack.peek();
+            stack.push(i);
         }
         
-        Stack<Integer> rstack = new Stack<>();
+        while(!stack.isEmpty()) stack.pop();
         for(int i = n - 1;i >= 0;i--){
-            while(!rstack.isEmpty() && nums[rstack.peek()] >= nums[i])
-                rstack.pop();
-            if(rstack.isEmpty())
+            while(!stack.isEmpty() && nums[stack.peek()] >= nums[i])
+                stack.pop();
+            if(stack.isEmpty())
                 right[i] = n;
-            else right[i] = rstack.peek();
-            rstack.push(i);
+            else right[i] = stack.peek();
+            stack.push(i);
         }
-        // System.out.println(Arrays.toString(left));
-        // System.out.println(Arrays.toString(right));
         int max = 0;
         for(int i = 0;i < n;i++)
             max = Math.max((right[i] - left[i] - 1) * nums[i], max);
