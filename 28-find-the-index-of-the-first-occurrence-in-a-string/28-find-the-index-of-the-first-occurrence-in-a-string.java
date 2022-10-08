@@ -18,7 +18,7 @@ class Solution{
         	if(pat_hash == str_hash && str.substring(i - pat.length(), i).equals(pat))
         		return i - pat.length();
         	if(i < str.length()){
-	        	str_hash -= (str.charAt(i - pat.length()) - 'a' + 1) * (Math.pow(p, pat.length() - 1) % mod);
+	        	str_hash -= ((str.charAt(i - pat.length()) - 'a' + 1) * (Math.pow(p, pat.length() - 1))) % mod;
 	        	str_hash *= p;
 	        	str_hash += str.charAt(i) - 'a' + 1; //p^0 is 1 so no benefit in multiplying
 	        	str_hash %= mod;
