@@ -11,7 +11,8 @@ class Solution{
 			}
 			if(j == 0)
 				i++;
-			j = lps[Math.max(0, j - 1)];
+            else
+			    j = lps[j - 1];
 		}
 		return lps;
 	}
@@ -29,7 +30,8 @@ class Solution{
 				return i - j;
 			if(j == 0)
 				i++;
-			j = lps[Math.max(0, j - 1)];
+			else
+			    j = lps[j - 1];
 		}
 		return -1;
 	}
