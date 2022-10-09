@@ -4,35 +4,31 @@ class Solution{
 		int n = pat.length(), i = 1, j = 0;
 		int[] lps = new int[n];
 		while(i < n){
-			if(pat.charAt(i) == pat.charAt(j)){
-				while(i < n && pat.charAt(i) == pat.charAt(j)){
-					lps[i] = j + 1;
-					i++;
-					j++;
-				}
-				j = lps[Math.max(0, j - 1)];
-			}
-			else
+			while(i < n && pat.charAt(i) == pat.charAt(j)){
+				lps[i] = j + 1;
 				i++;
+				j++;
+			}
+			if(j == 0)
+				i++;
+			j = lps[Math.max(0, j - 1)];
 		}
-		// System.out.println(Arrays.toString(lps));
 		return lps;
 	}
-	public int strStr(String str, String pat){
-		if(pat.length() > str.length())
+	int strStr(String str, String pat){
+		int m = str.length(), n = pat.length(), i = 0, j = 0;
+		if(m < n)
 			return -1;
 		int[] lps = lps(pat);
-		int i = 0, j = 0, m = str.length(), n = pat.length();
 		while(i < m){
-			if(str.charAt(i) == pat.charAt(j))
-				while(i < m && j < n && str.charAt(i) == pat.charAt(j)){
-					i++;
-					j++;
-				}
-			else if(j == 0)
+			while(i < m && j < n && str.charAt(i) == pat.charAt(j)){
 				i++;
+				j++;
+			}
 			if(j == n)
 				return i - j;
+			if(j == 0)
+				i++;
 			j = lps[Math.max(0, j - 1)];
 		}
 		return -1;
