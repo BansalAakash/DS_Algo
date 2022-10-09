@@ -1,31 +1,38 @@
 class Solution{
-	final int mod = (int)1e7+7, p = 31;
-	int hash(String str, int end){
-		int hash = 0;
-        for(int i = end;i >= 0;i--){
-        	hash += ((str.charAt(i) - 'a' + 1) * Math.pow(p, end - i)) % mod;
-        	hash %= mod;
-        }
-        return hash;
-	}
-	public int strStr(String str, String pat) {
-        if(pat.length() > str.length())
-            return -1;
-        int pat_hash = hash(pat, pat.length() - 1), str_hash = hash(str, pat.length() - 1);
-        // System.out.println("Hash of pattern " + pat + " is " + pat_hash);
-        for(int i = pat.length();i <= str.length();i++){
-        	// System.out.println("Hash of " + str.substring(i - pat.length(), i) + " is " + str_hash);
-        	if(pat_hash == str_hash && str.substring(i - pat.length(), i).equals(pat))
-        		return i - pat.length();
-        	if(i < str.length()){
-	        	str_hash -= ((str.charAt(i - pat.length()) - 'a' + 1) * (Math.pow(p, pat.length() - 1))) % mod;
-	        	str_hash *= p;
-	        	str_hash += str.charAt(i) - 'a' + 1; //p^0 is 1 so no benefit in multiplying
-	        	str_hash %= mod;
-	        	if(str_hash < 0)
-	        		str_hash += mod;
-        	}
-        }
-        return -1;
+	public int strStr(String str, String pat){
+		if(pat.length() > str.length())
+			return -1;
+		String s = pat + "$" + str;
+		int left = 0, right = 0, n = s.length();
+		// int comp = 0;						//To track number of comparisons
+		int[] z = new int[s.length()];
+		for(int i = 1;i < n;i++){				//we start with first index cuz 0th index's z is always 0
+			if(right < i){						//we are not inside z-box
+				left = i;
+				right = i;
+				while(right < n && s.charAt(right) == s.charAt(right - left)){
+					// comp++;
+					right++;
+				}
+				z[i] = right - left;
+				right--;
+			} else{								//we are inside z-box
+				z[i] = Math.min(z[i - left], right - i + 1);
+				if(z[i - left] >= right - i + 1){							//The end of current character's coinciding with the right of current z box
+					left = i; right = i + z[i];
+					while(right < n && s.charAt(right) == s.charAt(right - left)){
+						// comp++;
+						right++;
+					}
+					z[i] = right - left;
+					right--;
+				}
+			}
+		}
+		// System.out.println("Did " + comp + " comparisons for length " + n);
+		for(int i = 0;i < n;i++)
+			if(z[i] == pat.length())
+				return i - pat.length() - 1;
+		return -1;
 	}
 }
