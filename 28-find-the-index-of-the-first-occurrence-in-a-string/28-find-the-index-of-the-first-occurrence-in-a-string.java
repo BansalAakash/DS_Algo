@@ -19,7 +19,7 @@ class Solution{
 			} else{								//we are inside z-box
 				z[i] = Math.min(z[i - left], right - i + 1);
 				if(z[i - left] >= right - i + 1){							//The end of current character's coinciding with the right of current z box
-					left = i;right++;
+					left = i;right = left + z[i];
 					while(right < n && s.charAt(right) == s.charAt(right - left)){
 						// comp++;
 						right++;
