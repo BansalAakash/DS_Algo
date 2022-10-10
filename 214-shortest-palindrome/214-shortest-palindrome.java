@@ -1,19 +1,27 @@
 class Solution{
-	String reverse(String str){
-		StringBuilder s = new StringBuilder(str);
-		int i = 0, j = str.length() - 1;
-		while(i < j){
-			char temp = s.charAt(i);
-			s.setCharAt(i, s.charAt(j));
-			s.setCharAt(j, temp);
-			i++;j--;
-		}
-		return s.toString();
-	}
+    int[] lps(StringBuilder s){
+        int i = 1, j = 0, n = s.length();
+        int[] lps = new int[n];
+        while(i < n){
+            while(i < n && s.charAt(i) == s.charAt(j)){
+                lps[i] = j + 1;
+                i++;
+                j++;
+            }
+            if(j == 0)
+                i++;
+            else
+                j = lps[j - 1];
+        }
+        return lps;
+    }
 	public String shortestPalindrome(String s) {
         int i = 0, n = s.length();
-        String rev = new StringBuilder(s).reverse().toString();
-        while(i < n && !s.substring(0, n - i).equals(rev.substring(i))) i++;
-        return rev.substring(0, i) + s;
+        StringBuilder rev = new StringBuilder(s).reverse();
+        rev.insert(0, "$");
+        rev.insert(0, s);
+        int n1 = rev.length();
+        int[] lps = lps(rev);
+        return rev.substring(n + 1, n1 - lps[n1 - 1]) + s;
     }
 }
