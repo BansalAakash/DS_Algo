@@ -14,15 +14,31 @@
  * }
  */
 class Solution {
-    void helper(TreeNode root, List<Integer> result){
-        if(root == null)return;
-        helper(root.left, result);
-        helper(root.right, result);
-        result.add(root.val);
-    }
     public List<Integer> postorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<>();
-        helper(root, result);
+        Stack<TreeNode> stack = new Stack<>();
+        HashSet<TreeNode> visited = new HashSet<>();
+        TreeNode temp = root, temp1;
+        while(temp != null){
+            stack.push(temp);
+            temp = temp.left;
+        }
+        while(!stack.isEmpty()){
+            temp = stack.peek();
+            if(temp.right == null || visited.contains(temp.right)){
+                result.add(temp.val);
+                stack.pop();
+            }
+            else {
+                temp1 = temp.right;
+                while(temp1 != null){
+                    stack.push(temp1);
+                    visited.add(temp1);
+                    temp1 = temp1.left;
+                }
+            }
+        }
+        
         return result;
     }
 }
