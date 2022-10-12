@@ -14,21 +14,17 @@
  * }
  */
 class Solution {
-    public List<Integer> rightSideView(TreeNode root) {
-        LinkedList<TreeNode> list = new LinkedList<>();
-        List<Integer> result = new ArrayList<>();
+    void helper(List<Integer> list, TreeNode root, int level){
         if(root == null)
-            return result;
-        list.add(root);
-        while(!list.isEmpty()){
-            result.add(list.getLast().val);
-            int s = list.size();
-            while(s-- > 0){
-                TreeNode temp = list.removeFirst();
-                if(temp.left != null) list.addLast(temp.left);
-                if(temp.right != null) list.addLast(temp.right);
-            }
-        }
+            return;
+        if(level == list.size())
+            list.add(root.val);
+        helper(list, root.right, level + 1);
+        helper(list, root.left, level + 1);
+    }
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        helper(result, root, 0);
         return result;
     }
 }
