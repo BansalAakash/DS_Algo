@@ -14,6 +14,8 @@
  * }
  */
 class Solution {
+    
+    //just like Kadane's
     int[] helper(TreeNode root){
         if(root == null)
             return new int[]{0, Integer.MIN_VALUE};
@@ -21,12 +23,10 @@ class Solution {
             return new int[]{root.val, root.val};
         int[] left = helper(root.left);
         int[] right = helper(root.right);
-        int left_ = root.val + Math.max(0, left[0]);                //root + left Path sum or 0 if left path sum is negative
-        int right_ = root.val + Math.max(0, right[0]);              //root + right path sum or 0 if right path sum is negative
-        int maxPath = Math.max(left_, right_);
-        int max2 = Math.max(left[1], right[1]);                     //left[1] and right[1] store the max received from either side
-        int max3 = Math.max(0, left[0]) + root.val + Math.max(0, right[0]);
-        int max = Math.max(maxPath, Math.max(max2, max3));
+        int left_ = Math.max(0, left[0]);                           //root + left Path sum or 0 if left path sum is negative
+        int right_ = Math.max(0, right[0]);                         //root + right path sum or 0 if right path sum is negative
+        int maxPath = root.val + Math.max(left_, right_);       
+        int max = Math.max(left_ + right_ + root.val, Math.max(left[1], right[1]));   //Max of a. path possing through cur node, b. left max, c. right max
         return new int[] {maxPath, max};
     }
     public int maxPathSum(TreeNode root) {
