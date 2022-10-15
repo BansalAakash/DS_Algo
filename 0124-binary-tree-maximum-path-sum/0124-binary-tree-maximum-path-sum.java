@@ -16,7 +16,7 @@
 class Solution {
     int[] helper(TreeNode root){
         if(root == null)
-            return new int[]{Integer.MIN_VALUE, Integer.MIN_VALUE};
+            return new int[]{0, Integer.MIN_VALUE};
         if(root.left == null && root.right == null)
             return new int[]{root.val, root.val};
         int[] left = helper(root.left);
