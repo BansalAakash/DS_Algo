@@ -14,23 +14,25 @@
  * }
  */
 class Solution {
-    TreeNode helper(int[] pre, HashMap<Integer, Integer> in, int left, int right){
+    int index;
+    TreeNode helper(int[]pre_, HashMap<Integer, Integer> in, int left, int right){
         if(left > right)
             return null;
-        TreeNode root = new TreeNode(pre[left]);
-        int r = left + 1;
-        while(r <= right && in.get(pre[r]) < in.get(pre[left])) r++;
-        r--;
-        root.left = helper(pre, in, left + 1, r);
-        root.right = helper(pre, in, r + 1, right);
+        int rootVal = pre_[index];
+        TreeNode root = new TreeNode(rootVal);
+        index++;
+        root.left = helper(pre_, in, left, in.get(rootVal) - 1);
+        root.right = helper(pre_, in, in.get(rootVal) + 1, right);
         return root;
     }
     public TreeNode buildTree(int[] pre, int[] in) {
-        int n = pre.length;if(n == 0)
+        int n = pre.length;
+        index = 0;
+        if(n == 0)
             return null;
-        HashMap<Integer, Integer> map = new HashMap<>();
+        HashMap<Integer, Integer> in_map = new HashMap<>();
         for(int i = 0;i < n;i++)
-            map.put(in[i], i);
-        return helper(pre, map, 0, n - 1);
+            in_map.put(in[i], i);
+        return helper(pre, in_map, 0, n - 1);
     }
 }
