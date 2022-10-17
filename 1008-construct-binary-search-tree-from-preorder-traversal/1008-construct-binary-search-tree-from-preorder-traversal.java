@@ -14,30 +14,17 @@
  * }
  */
 class Solution {
-    public TreeNode bstFromPreorder(int[] preorder) {
-        TreeNode root = null;
-        for(int i : preorder){
-            if(root == null)
-                root = new TreeNode(i);
-            else{
-                TreeNode temp = root;
-                while(true){
-                    if(temp.val > i){
-                        if(temp.left == null){
-                            temp.left = new TreeNode(i);
-                            break;
-                        }
-                        else temp = temp.left;
-                    } else {
-                        if(temp.right == null){
-                            temp.right = new TreeNode(i);
-                            break;
-                        }
-                        else temp = temp.right;
-                    }
-                }
-            }
-        }
+    int index;
+    TreeNode helper(int[] A, int bound){
+        if(index == A.length || A[index] > bound)
+            return null;
+        TreeNode root = new TreeNode(A[index++]);
+        root.left = helper(A, root.val);
+        root.right = helper(A, bound);
         return root;
+    }
+    public TreeNode bstFromPreorder(int[] a) {
+        index = 0;
+        return helper(a, Integer.MAX_VALUE);
     }
 }
