@@ -14,19 +14,30 @@
  * }
  */
 class Solution {
-    TreeNode insert(TreeNode root, int val){
-        if(root == null)
-            return new TreeNode(val);
-        else if(val < root.val)
-            root.left = insert(root.left, val);
-        else
-            root.right = insert(root.right, val);
-        return root;
-    }
     public TreeNode bstFromPreorder(int[] preorder) {
         TreeNode root = null;
-        for(int i : preorder)
-            root = insert(root, i);
+        for(int i : preorder){
+            if(root == null)
+                root = new TreeNode(i);
+            else{
+                TreeNode temp = root;
+                while(true){
+                    if(temp.val > i){
+                        if(temp.left == null){
+                            temp.left = new TreeNode(i);
+                            break;
+                        }
+                        else temp = temp.left;
+                    } else {
+                        if(temp.right == null){
+                            temp.right = new TreeNode(i);
+                            break;
+                        }
+                        else temp = temp.right;
+                    }
+                }
+            }
+        }
         return root;
     }
 }
