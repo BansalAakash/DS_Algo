@@ -14,25 +14,51 @@
  * }
  */
 class Solution {
-    int helper(TreeNode root, HashMap<Integer, Integer> map){
-        if(root == null)
-            return 0;
-        int val = map.getOrDefault(root.val, 0);
-        map.put(root.val, val + 1);
-        int left = helper(root.left, map);
-        int right = helper(root.right, map);
-        return Math.max(val + 1, Math.max(left, right));
+    int modCount = 0, curVal = 0, curCount = 0, maxCount = 0;
+    int[] mods;
+    void helper(int val){
+        if(curVal != val){
+            curCount = 0;
+            curVal = val;
+        }
+        curCount++;
+        if(curCount > maxCount){
+            maxCount = curCount;
+            modCount = 1;
+        } else if(curCount == maxCount){
+            if(mods != null)
+                mods[modCount] = val;
+            modCount++;
+        }
     }
+
+    void morris(TreeNode root) {
+        TreeNode cur = root, node = null;
+        while (cur != null) {
+            if (cur.left != null) {
+                node = cur.left;
+                while (node.right != null && node.right != cur) node = node.right;
+                if (node.right == null) {
+                    node.right = cur;
+                    cur = cur.left;
+                } else {
+                    node.right = null;
+                    helper(cur.val);
+                    cur = cur.right;
+                }
+            } else {
+                helper(cur.val);
+                cur = cur.right;
+            }
+        }
+    }
+
     public int[] findMode(TreeNode root) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        int max = helper(root, map);
-        List<Integer> list = new ArrayList<>();
-        for(int i : map.keySet())
-            if(map.get(i) == max)
-                list.add(i);
-        int[] result = new int[list.size()];
-        for(int i = 0; i < list.size();i++)
-            result[i] = list.get(i);
-        return result;
+        morris(root);
+        mods = new int[modCount];
+        modCount = 0;
+        curCount = 0;
+        morris(root);
+        return mods;
     }
 }
