@@ -119,37 +119,17 @@ class GfG
 {
     public static void findPreSuc(Node root, Res p, Res s, int key)
     {
-		Node cur = root, prev = null;
-		while(cur != null){
-			if(cur.left != null){
-				Node node = cur.left;
-				while(node.right != null && node.right != cur)
-					node = node.right;
-				if(node.right == cur){
-					node.right = null;
-					if(cur.data >= key) 
-					    break;
-					prev = cur;
-					cur = cur.right;
-				} else {
-					node.right = cur;
-					cur = cur.left;
-				}
-			} else {
-				if(cur.data >= key)
-				    break;
-				prev = cur;
-				cur = cur.right;
-			}
-		}
-		if(cur == null)
-		    p.pre = prev;
-		else if(cur.data == key){
-		    p.pre = prev;
-		    s.succ = cur.right;
-		} else {
-		    p.pre = prev;
-		    s.succ = cur;
-		}
+       if(root == null) return;
+       if(root.data < key){
+           p.pre = root;
+           findPreSuc(root.right, p, s, key);
+       }
+        else if(root.data > key){
+            s.succ = root;
+            findPreSuc(root.left, p, s, key);
+        } else{
+            findPreSuc(root.left, p, s, key);
+            findPreSuc(root.right, p, s, key);
+        }
     }
 }
