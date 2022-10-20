@@ -14,28 +14,44 @@
  * }
  */
 class Solution {
-    TreeNode find(TreeNode root, int val) {
-        if(root == null || val == root.val)
-            return root;
-        if(val < root.val)
-            return find(root.left, val);
-        return find(root.right, val);
-    }
     public boolean findTarget(TreeNode root, int k) {
         if(root == null)
             return false;
-        TreeNode cur = root;
-        Stack<TreeNode> stack = new Stack<>();
-        while(cur != null || !stack.isEmpty()){
-            while(cur != null){
-                stack.push(cur);
-                cur = cur.left;
-            }
-            cur = stack.pop();
-            TreeNode find_ = find(root, k - cur.val);
-            if(find_ != null && find_ != cur)
-                return true;
-            cur = cur.right;
+        Stack<TreeNode> maxStack = new Stack<>(), minStack = new Stack<>();
+        TreeNode temp = root;
+        while(temp != null){
+        	minStack.push(temp);
+        	temp = temp.left;
+        }
+        temp = root;
+        while(temp != null){
+        	maxStack.push(temp);
+        	temp = temp.right;
+        }
+        TreeNode low = minStack.pop(), high = maxStack.pop();
+        while(low != null && high != null && low.val < high.val){
+        	int cur = low.val + high.val;
+        	if(cur == k)
+        		return true;
+        	if(cur > k){
+        		if(high.left != null){
+        			temp = high.left;
+        			while(temp != null){
+        				maxStack.push(temp);
+        				temp = temp.right;
+        			}
+        		}
+        		high = maxStack.isEmpty() ? null : maxStack.pop();
+        	} else {
+        		if(low.right != null){
+        			temp = low.right;
+        			while(temp != null){
+        				minStack.push(temp);
+        				temp = temp.left;
+        			}
+        		}
+        		low = minStack.isEmpty() ? null : minStack.pop();
+        	}
         }
         return false;
     }
