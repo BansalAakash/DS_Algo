@@ -25,7 +25,7 @@ class Solution {
                     node.right = cur.right;
                     cur.right = cur.left;
                     cur.left = null;
-                    node = cur.right;
+                    cur = node.right;
                 } else {
                     node.right = cur;
                     cur = cur.left;
