@@ -15,8 +15,7 @@ class KthLargest {
     }
     
     private void addhelper(int val){
-        if(q.size() < k || val > q.peek())
-            q.add(val);
+        q.add(val);
         if(q.size() > k)
             q.poll();
     }
