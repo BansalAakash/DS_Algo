@@ -18,21 +18,19 @@ class Node {
 }
 */
 class Solution {
+    void dfs(HashMap<Node, Node> map, HashSet<Node> visited, Node node){
+        if(visited.contains(node))
+            return;
+        visited.add(node);
+        map.put(node, new Node(node.val));
+        for(Node n : node.neighbors)
+            dfs(map, visited, n);
+    }
     public Node cloneGraph(Node node) {
         if(node == null)
             return null;
         HashMap<Node, Node> map = new HashMap<>();
-        HashSet<Node> visited = new HashSet<>();
-        Queue<Node> q = new LinkedList<>();
-        q.add(node);
-        while(!q.isEmpty()){
-            Node cur = q.poll();
-            map.put(cur, new Node(cur.val));
-            visited.add(cur);
-            for(Node n : cur.neighbors)
-                if(!visited.contains(n))
-                    q.add(n);
-        }
+        dfs(map, new HashSet<>(), node);
         for(Node n : map.keySet()){
             Node cur = map.get(n);
             for(Node x : n.neighbors)
