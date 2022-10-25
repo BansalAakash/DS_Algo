@@ -24,7 +24,8 @@ class Solution {
         visited.add(node);
         map.put(node, new Node(node.val));
         for(Node n : node.neighbors)
-            dfs(map, visited, n);
+            if(!visited.contains(n))
+                dfs(map, visited, n);
     }
     public Node cloneGraph(Node node) {
         if(node == null)
