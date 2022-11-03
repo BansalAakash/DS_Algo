@@ -45,30 +45,18 @@ class gfg
 
 // } Driver Code Ends
 
-class Node{
-    int wt, val;
-    public Node(int a, int b){
-        wt = a;
-        val = b;
-    }
-}
 class Solution 
 { 
     //Function to return max value that can be put in knapsack of capacity W.
     static int knapSack(int W, int wt[], int val[], int n) 
     { 
-        Node[] items = new Node[n];
-        for(int i = 0;i < n;i++)
-            items[i] = new Node(wt[i], val[i]);
-        Arrays.sort(items, (a, b) -> a.wt - b.wt);
-        
          int[][] dp = new int[n + 1][W + 1];
          for(int i = 1;i <= n;i++)
              for(int j = 1;j <= W;j++)
-                if(items[i - 1].wt > j)
+                if(wt[i - 1] > j)
                     dp[i][j] = dp[i - 1][j];
                 else 
-                    dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - items[i - 1].wt] + items[i - 1].val);
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - wt[i - 1]] + val[i - 1]);
          return dp[n][W];
     } 
 }
