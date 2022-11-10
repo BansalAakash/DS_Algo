@@ -1,11 +1,16 @@
 class Solution {
     public int maxProfit(int[] prices) {
         int n = prices.length;
-        int[][] dp = new int[2][n + 1];
-            for(int j = n - 1;j >= 0;j--){
-                dp[1][j] = Math.max((dp[0][j + 1]) - prices[j], dp[1][j + 1]);
-                dp[0][j] = Math.max((dp[1][j + 1]) + prices[j], dp[0][j + 1]);
-            }
-        return dp[1][0];
+        int buy = 0, sell = 0;
+        for(int j = n - 1;j >= 0;j--){
+            int tempBuy = Math.max(sell - prices[j], buy);
+            int tempSell = Math.max(buy + prices[j], sell);
+            sell = tempSell;
+            buy = tempBuy;
+        }
+        return buy;
     }
 }
+
+//1 signifies -> canBuy (meaning right now we dont have a share)
+//0 signfies -> canSell (meaning we have a share right now)
