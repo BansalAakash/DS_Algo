@@ -1,40 +1,34 @@
 class Solution {
-    boolean compare(String str1, String str2){
-        int i = 0, j = 0, n1 = str1.length(), n2 = str2.length();
-        if(n2 - n1 != 1)
+    boolean compare(String a, String b){
+        if(b.length() - a.length() != 1)
             return false;
-        while(i < n1 && j < n2){
-            if(str1.charAt(i) == str2.charAt(j))
+        int i = 0, j = 0, m = a.length(), n = b.length();
+        boolean flag = false;
+        while(i < m && j < n){
+            if(a.charAt(i) != b.charAt(j)){
+                if(flag == false){
+                    flag = true;
+                } else return false;
+            } else
                 i++;
             j++;
         }
-        return i == n1 && j >= n2 - 1;
+        if(i == m && j >= n - 1)
+            return true;
+        return false;
     }
     public int longestStrChain(String[] words) {
-        int n = words.length, max = 0, lastIndex = -1;
+        int n = words.length, max = 1;
         int[] dp = new int[n];
-        // int[] parent = new int[n];
-        // Arrays.fill(parent, -1);
+        Arrays.fill(dp, 1);
         Arrays.sort(words, (a, b) -> a.length() - b.length());
-        for(int i = 0;i < n;i++){
-            for(int j = i - 1;j >= 0;j--)
-                if(compare(words[j], words[i]) && dp[i] <= dp[j]){
-                    dp[i] = dp[j];
-                    // parent[i] = j;
-                }
-            dp[i] += 1;
-            if(dp[i] > max){
-                max = dp[i];
-                lastIndex = i;
+        for(int i = 1;i < n;i++){
+            for(int j = 0;j < i;j++){
+                if(compare(words[j], words[i]) && dp[i] <= dp[j])
+                    dp[i] = dp[j] + 1;
             }
+            max = Math.max(max, dp[i]);
         }
-        // int i = lastIndex;
-        // LinkedList<String> list = new LinkedList<>();
-        // while(i != -1){
-        //     list.addFirst(words[i]);
-        //     i = parent[i];
-        // }
-        // System.out.println(list);
         return max;
     }
 }
