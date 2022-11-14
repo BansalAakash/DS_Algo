@@ -19,8 +19,15 @@ class Solution {
     }
     public int minCut(String s) {
         int n = s.length();
-        int[] dp = new int[n];
-        Arrays.fill(dp, -1);
-        return f(s, 0, n, dp) - 1;
+        int[] dp = new int[n + 1];
+        for(int i = n - 1; i >= 0;i--){
+            int cuts = Integer.MAX_VALUE;
+            for(int j = i;j < n;j++){
+                if(isPalindrom(s, i, j))
+                    cuts = Math.min(cuts, 1 + dp[j + 1]);
+            }
+            dp[i] = cuts;
+        }
+        return dp[0] - 1;
     }
 }
