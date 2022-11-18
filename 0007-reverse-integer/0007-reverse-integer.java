@@ -1,13 +1,12 @@
 class Solution {
     public int reverse(int x) {
-        int result = 0, sign = x > 0 ? 1 : -1, temp = 0;
+        int result = 0, MAX = Integer.MAX_VALUE / 10, MIN = Integer.MIN_VALUE / 10;
         while(x != 0){
-            try{
-                temp = Math.addExact(Math.multiplyExact(result, 10), (x % 10));
-            } catch (Exception e){
+            if(result > MAX || (result == MAX & (x % 10 > 7)))
                 return 0;
-            }
-            result = temp;
+            if(result < MIN || (result == MIN & (x % 10 > 7)))
+                return 0;
+            result = (result * 10) + (x % 10);
             x = x/10;
         }
         return result;
