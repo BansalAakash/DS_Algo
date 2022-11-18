@@ -4,7 +4,7 @@ class Solution {
         while(x != 0){
             if(result > MAX || (result == MAX & (x % 10 > 7)))
                 return 0;
-            if(result < MIN || (result == MIN & (x % 10 > 7)))
+            if(result < MIN || (result == MIN & (x % 10 < -8)))
                 return 0;
             result = (result * 10) + (x % 10);
             x = x/10;
