@@ -3,15 +3,13 @@ class Solution {
         if(n < 2)
             return 0;
         boolean[] dp = new boolean[n];
-        for(int i = 2;i < n;i++)
-            if(!dp[i])
-                for(int j = i + i;j < n; j += i)
-                    dp[j] = true;
         int count = 0;
         for(int i = 2;i < n;i++)
-            if(!dp[i])
+            if(!dp[i]){
                 count++;
-        
+                for(int j = i + i;j < n; j += i)
+                    dp[j] = true;
+            }
         return count;
     }
 }
