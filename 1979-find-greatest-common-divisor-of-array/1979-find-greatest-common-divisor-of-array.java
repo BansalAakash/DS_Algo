@@ -1,10 +1,8 @@
 class Solution {
     int findGCD(int x, int y){
-        if(x >= y && x % y == 0)
+        if(x == 0)
             return y;
-        if(y > x && y % x == 0)
-            return x;
-        return findGCD(Math.abs(x - y), Math.min(x, y));
+        return findGCD(y % x, x);
     }
     public int findGCD(int[] nums) {
         int min = 1001, max = 0;
