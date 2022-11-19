@@ -40,17 +40,17 @@ class Solution
 {
   static void insert(int arr[],int i)
   {
-      int cur = arr[i], j = i - 1;
-       while(j >= 0 && cur < arr[j]){
-           arr[j + 1] = arr[j];
-           j--;
-       }
-       arr[j + 1] = cur;
+      int cur = arr[i - 1], j = i - 2;
+      while(j >= 0 && arr[j] > cur)
+          arr[j + 1] = arr[j--];
+      arr[j + 1] = cur;
   }
   //Function to sort the array using insertion sort algorithm.
   public void insertionSort(int arr[], int n)
   {
-      for(int i = 1;i < n;i++)
-          insert(arr, i);
+      if(n == 1)
+        return;
+      insertionSort(arr, n - 1);
+      insert(arr, n);
   }
 }
