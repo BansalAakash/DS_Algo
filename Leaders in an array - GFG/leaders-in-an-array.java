@@ -47,15 +47,15 @@ class Array {
 class Solution{
     //Function to find the leaders in the array.
     static ArrayList<Integer> leaders(int arr[], int n){
-        Stack<Integer> stack = new Stack<>();
-        stack.push(arr[n - 1]);
-        for(int i = n - 2;i >= 0;i--){
-            if(arr[i] >= stack.peek())
-                stack.push(arr[i]);
-        }
+        int prev = -1;
         ArrayList<Integer> result = new ArrayList<>();
-        while(!stack.isEmpty())
-            result.add(stack.pop());
+        for(int i = n - 1;i >= 0;i--){
+            if(arr[i] >= prev){
+                prev = arr[i];
+                result.add(prev);
+            }
+        }
+        Collections.reverse(result);
         return result;
     }
 }
