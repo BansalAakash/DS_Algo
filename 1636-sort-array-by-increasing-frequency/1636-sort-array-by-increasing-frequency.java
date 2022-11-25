@@ -3,15 +3,8 @@ class Solution {
         HashMap<Integer, Integer> map = new HashMap<>();
         for(int i : nums)
             map.put(i, map.getOrDefault(i, 0) + 1);
-        PriorityQueue<Map.Entry<Integer, Integer>> pq = new PriorityQueue<>((a, b) -> (a.getValue() == b.getValue() ? b.getKey() - a.getKey() : a.getValue() - b.getValue()));
-        pq.addAll(map.entrySet());
-        int index = 0;
-        while(!pq.isEmpty()){
-            Map.Entry<Integer, Integer> e = pq.poll();
-            int cur = e.getKey(), freq = e.getValue();
-            while(freq-- > 0)
-                nums[index++] = cur;
-        }
+        Integer[] nums2 = Arrays.stream(nums).boxed().sorted((a, b) -> map.get(a) == map.get(b) ? b - a : map.get(a) - map.get(b)).toArray(Integer[] :: new);
+        nums = Stream.of(nums2).mapToInt(Integer::intValue).toArray();
         return nums;
     }
 }
