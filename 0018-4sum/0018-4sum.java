@@ -3,10 +3,13 @@ class Solution {
         Arrays.sort(nums);
         int i = 0, n = nums.length;
         List<List<Integer>> result = new ArrayList<>();
+        if(nums[n - 1] < target / 4)
+            return result;
         while(i < n - 3){
-            int j = i + 1;
-            if(nums[i] > target / 4 || nums[n - 1] < target / 4)
+            if(nums[i] > target / 4)
                 return result;
+            
+            int j = i + 1;
             while(j < n - 2){
                 int k = j + 1, l = n - 1;
                 while(k < l){
