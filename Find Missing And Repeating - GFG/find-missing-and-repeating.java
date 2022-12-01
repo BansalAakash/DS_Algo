@@ -30,29 +30,35 @@ class GFG {
 // User function Template for Java
 
 class Solve {
-    void swap(int[] arr, int i, int j){
-        int temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-    }
     int[] findTwoElement(int arr[], int n) {
-        int[] result = {0,0};
-        int i = 0;
-        while(i < n){
-            if(arr[i]!= i + 1){
-                if(arr[arr[i] - 1] == arr[i]){
-                    result[0] = arr[i];
-                    i++;
-                }
-                else
-                    swap(arr, i, arr[i] - 1);
-            } else i++;
+        int xor = 0;
+        for(int i = 1;i <= n;i++)
+            xor = xor ^ i ^ arr[i - 1];
+        int temp = xor, setBit = 0;
+        while((temp & 1) != 1){
+            temp = temp >> 1;
+            setBit++;
         }
-        for(i = 0;i < n;i++)
-            if(arr[i] != i + 1){
-                result[1] = i + 1;
+        int part1 = 0, part2 = 0;
+        for(int i = 1;i <= n;i++){
+            if(((arr[i - 1] >> setBit) & 1) == 1)
+                part1 ^= arr[i - 1];
+            else part2 ^= arr[i - 1];
+            
+            if(((i >> setBit) & 1) == 1)
+                part1 ^= i;
+            else part2 ^= i;
+        }
+        for(int i : arr){
+            if(i == part1)
+                break;
+            else if(i == part2){
+                temp = part1;
+                part1 = part2;
+                part2 = temp;
                 break;
             }
-        return result;
-    }
+        }
+        return new int[]{part1, part2};
+     }
 }
