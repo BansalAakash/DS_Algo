@@ -3,7 +3,7 @@ class Solution {
         int i = low, j = mid + 1, k = 0, count = 0;
         int[] temp = new int[high - low + 1];
         while(i <= mid){
-            while(j <= high && (nums[j] < Integer.MIN_VALUE / 2 || (nums[j] <= Integer.MAX_VALUE / 2 && nums[i] > 2 * nums[j])))
+            while(j <= high && nums[i] > 2L * nums[j])
                 j++;
             count += j - (mid + 1);
             i++;
