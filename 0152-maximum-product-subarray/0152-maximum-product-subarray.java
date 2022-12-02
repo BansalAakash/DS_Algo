@@ -9,7 +9,7 @@ class Solution {
             }
             max = Math.max(i, i * max);
             min = Math.min(i, i * min);
-            result = Math.max(max, result);
+            result = Math.max(result, max);
         }
         return result;
     }
