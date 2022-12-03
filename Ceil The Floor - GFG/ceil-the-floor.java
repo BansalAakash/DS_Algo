@@ -55,7 +55,7 @@ class Solve {
         int low = 0, high = n - 1;
         Arrays.sort(arr);
         Pair p = new Pair(-1, -1);
-        while(low < high){
+        while(low <= high){
             int mid = low + (high - low) / 2;
             if(arr[mid] <= x){
                 p.floor = arr[mid];
@@ -63,10 +63,8 @@ class Solve {
             }
             else high = mid - 1;
         }
-        if(arr[low] <= x)
-            p.floor = arr[low];
         low = 0; high = n - 1;
-        while(low < high){
+        while(low <= high){
             int mid = low + (high - low) / 2;
             if(arr[mid] >= x){
                 p.ceil = arr[mid];
@@ -74,8 +72,6 @@ class Solve {
             }
             else low = mid + 1;
         }
-        if(arr[low] >= x)
-            p.ceil = arr[low];
         return p;
     }
 }
